@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 import knex from '../../database/connection';
 
 class BaseRepository {
@@ -32,7 +34,6 @@ class BaseRepository {
   create(attributes, trx, returning = ['*']) {
     return this.cloneQuery().insert(attributes).returning(returning);
   }
-
   update(clauses, attributes, returning = ['*']) {
     return this.cloneQuery().where(clauses).update(attributes).returning(returning);
   }

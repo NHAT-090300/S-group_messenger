@@ -1,7 +1,8 @@
+/* eslint-disable require-jsdoc */
 import methodOverride from 'method-override';
 import routes from '../routes/index';
 
-export default function (app) {
+export default function(app) {
   app.use(methodOverride('X-HTTP-Method-Override'));
 
   app.use(
@@ -31,5 +32,7 @@ export default function (app) {
     next();
   });
 
-  app.use(routes);
+  app.use('/', routes);
 }
+
+

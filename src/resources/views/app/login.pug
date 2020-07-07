@@ -3,17 +3,17 @@ extends ../layouts/sign
 block content
   h5 Sign in
 
-  form
+  form#loginEmail(action='/login' method='POST')
     .form-group.input-group-lg
-      input.form-control(type='text' placeholder='Username or email' required='' autofocus='')
+      input#sign-email.form-control(type='email' name='email' placeholder='Username or email' required='' autofocus='')
     .form-group.input-group-lg
-      input.form-control(type='password' placeholder='Password' required='')
+      input#sign-Pwd.form-control(type='password' name='password' placeholder='Password' required='')
     .form-group.d-flex.justify-content-between
       .custom-control.custom-checkbox
         input#customCheck1.custom-control-input(type='checkbox' checked='')
         label.custom-control-label(for='customCheck1') Remember me
       a(href='/reset-password') Reset password
-    button.btn.btn-primary.btn-lg.btn-block Sign in
+    button#btnLogin.btn.btn-primary.btn-lg.btn-block Sign in
     hr
     p.text-muted Login with your social media account.
     ul.list-inline
@@ -29,7 +29,7 @@ block content
       li.list-inline-item
         a.btn.btn-floating.btn-linkedin(href='#')
           i.fa.fa-linkedin
-      li.list-inline-item
+      li.list-inline-item#login-google
         a.btn.btn-floating.btn-google(href='#')
           i.fa.fa-google
       li.list-inline-item

@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 class BaseController {
   callMethod(method) {
     return this[method].bind(this);

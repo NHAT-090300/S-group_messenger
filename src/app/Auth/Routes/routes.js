@@ -1,21 +1,36 @@
 import express from 'express';
 import Controller from '../Controllers/AuthController';
+import AuthMiddleware from '../Middleware/AuthMiddleware';
 
 const router = express.Router();
 const controller = new Controller();
-
-router.get('/login', (req, res) => res.render('app/login'));
+const authMiddleware = new AuthMiddleware();
 
 router.route('/login-phone-number')
-  .get((req, res) => res.render('app/login-phone-number'))
-  .post((req) => {
-    console.log(req.body);
-  });
+  .get(controller.loginPhoneNumber)
+  .post(controller.callMethod('postRegisterNumber'));
 
-router.get('/register', (req, res) => res.render('app/auth/register'));
+router.route('/register')
+  .get(controller.register);
 
-router.get('/register-email', controller.callMethod('registerByEmail'));
+router.route('/register-email')
+  .get(controller.registerByEmail)
+  .post(controller.callMethod('postRegisterEmail'));
 
-router.get('/reset-password', (req, res) => res.render('app/reset-password'));
+router.route('/reset-password')
+  .get(controller.resetPassword);
+
+router.route('/')
+  .get(authMiddleware.hasLogined, controller.redirectHome);
+
+router.route('/conversations')
+  .get(authMiddleware.hasLogined, controller.home);
+
+router.route('/login')
+  .post(controller.postLogin)
+  .get(authMiddleware.hasNotLogined, controller.login);
+
+router.route('/logout')
+  .get(authMiddleware.hasLogined, controller.logout);
 
 export default router;

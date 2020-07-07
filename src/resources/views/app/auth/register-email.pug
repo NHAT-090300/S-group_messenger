@@ -3,18 +3,18 @@ extends ../../layouts/sign
 block content
   h5 Create account
 
-  form
+  form#registerEmail
     .form-group.input-group-lg
-      input.form-control(type='text' placeholder='Firstname' required='' autofocus='')
+      input#firstName.form-control(type='text' placeholder='Firstname' required='' autofocus='')
     .form-group.input-group-lg
-      input.form-control(type='text' placeholder='Lastname' required='')
+      input#lastName.form-control(type='text' placeholder='Lastname' required='')
     .form-group.input-group-lg
-      input.form-control(type='email' placeholder='Email' required='')
+      input#email.form-control(type='email' placeholder='Email' required='')
     .form-group.input-group-lg
-      input.form-control(type='password' placeholder='Password' required='')
+      input#password.form-control(type='password' placeholder='Password' required='')
     .form-group.input-group-lg
       #recaptcha-container
     button.btn.btn-primary.btn-lg.btn-block Register
     hr
     p.text-muted Already have an account?
-    a.btn.btn-outline-light.btn-sm(href='/login') Sign in!
+    a#submit.btn.btn-outline-light.btn-sm(href='/login') Sign in!
