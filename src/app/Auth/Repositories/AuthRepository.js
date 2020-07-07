@@ -14,6 +14,7 @@ class AuthRepository extends BaseRepository {
   getTableName() {
     return 'users';
   }
+  
 }
 
 export default AuthRepository;

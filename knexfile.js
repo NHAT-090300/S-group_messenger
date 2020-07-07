@@ -6,13 +6,7 @@ const BASE_PATH = path.join(__dirname, 'src', 'database');
 module.exports = {
   development: {
     client: process.env.DB_CONNECTION,
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      charset: 'utf8',
-    },
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: path.join(BASE_PATH, 'migrations'),
     },
@@ -22,13 +16,7 @@ module.exports = {
   },
   production: {
     client: process.env.DB_CONNECTION,
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      charset: 'utf8',
-    },
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: path.join(BASE_PATH, 'migrations'),
     },
@@ -41,3 +29,4 @@ module.exports = {
     },
   },
 };
+

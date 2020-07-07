@@ -56,21 +56,6 @@ $(function () {
             $(this).closest('.sidebar-group').removeClass('mobile-open');
         }
     });
-
 });
 
 
-// login-out 
-$(document).ready(function(event){
-    event.preventDefault();
-    $('#signOut').click(function(event) {
-        event.preventDefault();
-        firebase.auth().signOut()
-        .then(function() {
-          confirm('are you sure?');
-          window.location.replace('/login');
-        }).catch(function(error) {
-          alert('please try again one more time')
-        });
-      });
-});

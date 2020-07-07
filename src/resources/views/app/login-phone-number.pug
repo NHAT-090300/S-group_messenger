@@ -6,11 +6,11 @@ block content
 
     form#login-phone-number(method='POST')
       .form-group.input-group-lg
-        input.form-control(type='text' name='firstName' placeholder='Firstname' required='' autofocus='')
+        input#firstName.form-control(type='text' name='firstName' placeholder='Firstname' required='' autofocus='')
       .form-group.input-group-lg
-        input.form-control(type='text' name='lastName' placeholder='Lastname' required='')
+        input#lastName.form-control(type='text' name='lastName' placeholder='Lastname' required='')
       .form-group.input-group-lg
-        input.form-control(type='text' name='phoneNumber' placeholder='Phone number' required='' autofocus='')
+        input#phoneNumber.form-control(type='text' name='phoneNumber' placeholder='Phone number' required='' autofocus='')
         #recaptcha-container
       button.btn.btn-primary.btn-lg.btn-block(type='submit') Sign in
 

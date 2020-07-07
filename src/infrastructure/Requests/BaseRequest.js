@@ -1,4 +1,5 @@
-import { validationResult } from 'express-validator/check';
+/* eslint-disable require-jsdoc */
+import {validationResult} from 'express-validator/check';
 
 class BaseRequest {
   static validate(req, res, next) {
