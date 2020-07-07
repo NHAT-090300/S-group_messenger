@@ -1,13 +1,13 @@
 exports.up = (knex) => knex.schema.createTable('users', (table) => {
   table.increments('id').primary();
-  table.string('firstName');
-  table.string('lastName');
-  table.string('avatar');
-  table.string('email');
-  table.string('phoneNumber');
-  table.string('password');
-  table.string('city');
-  table.text('describe');
+  table.string('firstName').notNullable();
+  table.string('lastName').notNullable();
+  table.string('avatar').defaultTo("");
+  table.string('email').defaultTo("");
+  table.string('phoneNumber').defaultTo("");
+  table.string('password').defaultTo("");
+  table.string('city').defaultTo("");
+  table.text('describe').defaultTo("");
   table.timestamp('createdAt').defaultTo(knex.fn.now());
   table.timestamp('updatedAt').defaultTo(knex.fn.now());
 });
