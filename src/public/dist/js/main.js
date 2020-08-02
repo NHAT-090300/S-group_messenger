@@ -33,7 +33,7 @@ $(document).ready(() => {
         error: function (xhr, status, err)   {
           console.log(err);
         }
-   
+
       });
    
     }catch (err) {
@@ -44,93 +44,68 @@ $(document).ready(() => {
   
   });
 
-// *login by password and emaillink
-/*
-  $('#loginEmail').on('submit',async (event) => {
-  
-    event.preventDefault();
-    // sign in with email in firebase
-    let signEmail = $('#sign-email').val();
-    let signPassword = $('#sign-Pwd').val();
 
-    var user = await firebase.auth().currentUser;
-
-    console.log(user.emailVerified)
-    // check verification
-    try {
-      if(user.emailVerified) {
-        
-        const result = await firebase.auth().signInWithEmailAndPassword(signEmail, signPassword)
-
-        $.notify("login successful", "success");
-
-        // window.location.replace('/');
-        $.ajax({
-          url: "/login",
-          type: "POST",
-          data: {
-            email,
-            password
-          },
-          success: function (result) {
-            console.log(result);
-          },
-          error: function (xhr, status, err)   {
-            console.log(err);
-          }
-        });
-
-      } else {
-
-        user.sendEmailVerification();
-  
-        $.notify("sent link email verification", "warn");
-
-        user.updateEmail(signEmail)
-
-        console.log(user.emailVerified)
-      }
-    } catch (err) {
-
-      $.notify(err, "error");
-
-    }
-  });
-*/
-// login google
-  $('#login-google').on('click', (event) => {
+// login by account google
+  $('#login-google').on('click', async (event) => {
     
     event.preventDefault();
     //login with google account
     var provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then(() => {
-
-      firebase.auth().getRedirectResult().then(() => {
-
-        $.notify("login by google successful", "warn");
-        
-        window.location.replace('/');
+    
+    provider.addScope( 'profile' );
+    provider.addScope( 'email' );
+    
+    firebase.auth().signInWithPopup(provider).then( function ( result )  {
       
-      }).catch((error) => {
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {    
+        console.log(idToken)
+        Cookies.set('idToken', idToken);
+        return window.location.replace('/');
+      }).catch(function(error) {
+        $.notify(error.message, "error");
 
-        $.notify( error, "error");
-      
       });
-      
-    }).catch((error) => {
-
-      $.notify( error, "error");
+    })
+    .catch((error) => {
+      $.notify(error.message, "error");
 
     });
   });
+
+// login by account facebook
+$('#login-facebook').on('click', async (event) => {
+    
+  event.preventDefault();
+  //login with facebook account
+  let provider = new firebase.auth.FacebookAuthProvider();
+  
+  provider.addScope('user_birthday, email');
+  firebase.auth().useDeviceLanguage();
+
+  firebase.auth().signInWithPopup(provider).then(function(result) {
+    firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+      console.log(idToken)
+      Cookies.set('idToken', idToken);
+      return window.location.replace('/');
+    }).catch(function(error) {
+      $.notify(error.message, "error");
+
+    });
+  }).catch(function(error) {
+    $.notify(error.message, "error");
+
+  });
 });
 
-// sign-in phoneNumber
+
+
+});
+
+// register phone number
 $(document).ready(function () {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
   
-  $('#login-phone-number').submit(function (event) {
+  $('#register-phone-number').submit(function (event) {
   
     event.preventDefault();
 
@@ -144,41 +119,80 @@ $(document).ready(function () {
   
         const firstName = $('#firstName').val();
         const lastName = $('#lastName').val();
+        const password = $('#password').val();
   
         $('#login-phone-step1').remove();
         $('#login-phone-step2').css('display', 'block');
         $('#phone-number-verify').submit(function (event) {
   
           event.preventDefault();
-          $.ajax({
-            url: "/login-phone-number",
-            type: "POST",
-            data: {
-              phoneNumber,
-              firstName,
-              lastName
-            },
-            success: function (result) {
-              console.log(result);
-            },
-            error: function (xhr, status, err) {
-              console.log(err);
-            }
-          });
+
           const codeNumber = $('input[name="code"]').val();
+          
           confirmationResult.confirm(codeNumber).then(function (result) {
-  
-            var user = result.user;
-            console.log(user);
+            $.ajax({
+              url: "/register-phoneNumber",
+              type: "POST",
+              data: {
+                phoneNumber,
+                firstName,
+                lastName,
+                password
+              }
+            }).then((result) => {
+              $.notify(result.message, "info");
+            })
+            setTimeout(() => {
+              window.location.replace('/login-phoneNumber');
+            }, 2000);
           }).catch(function (error) {
-            $.notify( error, "error");
-            window.location.replace('/login-phone-number')
+            $.notify( error.message, "error");
           });
         });
       }).catch(function (error) {
   
-        $.notify( error, "error");
+        $.notify( error.message, "error");
   
       });
   })
+
+// login phone number
+  $('#login-phone-number').on('submit',async (event) => {
+  
+    event.preventDefault();
+
+    let signPhone = $('#loginPhone').val();
+    let signPassword = $('#loginPassword').val();
+
+    try {
+      console.log('1')
+      $.ajax({
+        url: '/login-phoneNumber',
+        type: 'POST',
+        data: {
+          loginPhone: signPhone,
+          loginPassword: signPassword
+        }
+      })
+      .then((data)=> {
+        console.log(data);
+        Cookies.set('token', data.token);
+        if (data.message) {
+          $.notify(data.message, "error");
+        }
+        setTimeout(()=> {
+          return window.location.replace('/');
+        }, 3000);
+       })
+      .catch((err)=> {
+        $.notify(err, "error");
+      })
+      
+    } catch (err) {
+      console.log(err);
+      $.notify(err, "error");
+
+    }
+  });
 });
+

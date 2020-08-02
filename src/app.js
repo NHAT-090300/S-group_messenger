@@ -6,13 +6,17 @@ import logger from 'morgan';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import 'dotenv/config';
-
+import flash from 'flash-express';
 import initRoutes from './config/routes';
 
 const app = express();
+
+// cookieParser
+app.use(cookieParser());
+// flash-express
+app.use(flash());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}));
-
 // parse application/json
 app.use(bodyParser.json());
 
@@ -26,7 +30,7 @@ app.use(session({secret: 'keyboard cat', cookie: {maxAge: 60000}}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({

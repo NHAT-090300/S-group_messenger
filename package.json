@@ -23,6 +23,7 @@
     "firebase": "^7.15.5",
     "firebase-admin": "^8.5.0",
     "firebaseui": "^4.5.0",
+    "flash-express": "git://github.com/deveshgoyal/flash-express.git",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.12.5",
