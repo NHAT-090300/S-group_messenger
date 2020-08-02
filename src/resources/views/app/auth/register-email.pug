@@ -1,0 +1,20 @@
+extends ../../layouts/sign
+
+block content
+  h5 Create account
+
+  form#registerEmail
+    .form-group.input-group-lg
+      input#firstName.form-control(type='text' placeholder='Firstname' required='' autofocus='')
+    .form-group.input-group-lg
+      input#lastName.form-control(type='text' placeholder='Lastname' required='')
+    .form-group.input-group-lg
+      input#email.form-control(type='email' placeholder='Email' required='')
+    .form-group.input-group-lg
+      input#password.form-control(type='password' placeholder='Password' required='')
+    .form-group.input-group-lg
+      #recaptcha-container
+    button.btn.btn-primary.btn-lg.btn-block Register
+    hr
+    p.text-muted Already have an account?
+    a#submit.btn.btn-outline-light.btn-sm(href='/login') Sign in!
