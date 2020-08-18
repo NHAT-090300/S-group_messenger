@@ -21,7 +21,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.2.0",
     "firebase": "^7.15.5",
-    "firebase-admin": "^8.5.0",
+    "firebase-admin": "^9.0.0",
     "firebaseui": "^4.5.0",
     "flash-express": "git://github.com/deveshgoyal/flash-express.git",
     "http-errors": "~1.6.3",

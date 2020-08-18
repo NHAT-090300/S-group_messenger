@@ -5,13 +5,13 @@ block content
 
   form#registerEmail
     .form-group.input-group-lg
-      input#firstName.form-control(type='text' placeholder='Firstname' required='' autofocus='')
+      input#firstName.form-control(type='text'  pattern=".{3,}" placeholder='Firstname' required='' autofocus='')
     .form-group.input-group-lg
-      input#lastName.form-control(type='text' placeholder='Lastname' required='')
+      input#lastName.form-control(type='text' pattern=".{3,}" placeholder='Lastname' required='')
     .form-group.input-group-lg
       input#email.form-control(type='email' placeholder='Email' required='')
     .form-group.input-group-lg
-      input#password.form-control(type='password' placeholder='Password' required='')
+      input#password.form-control(type='password'  pattern=".{8,}" placeholder='Password' required='')
     .form-group.input-group-lg
       #recaptcha-container
     button.btn.btn-primary.btn-lg.btn-block Register

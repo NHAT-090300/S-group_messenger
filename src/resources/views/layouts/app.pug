@@ -7,8 +7,10 @@ head
   link(rel='icon' href='dist/images/favicon.png' type='image/png')
   link(rel='stylesheet' href='dist/css/soho.min.css')
   link(rel='stylesheet' href='dist/css/style.css')
-
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')
+  script(src='dist/js/load-page.js')
 body
+  include ../components/modals/load-page.pug
   // disconnected modal
   include ../components/modals/disconnected-modal
 
@@ -35,11 +37,13 @@ body
     // content
     .content
       block content
-
-  script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(src='vendors/jquery/jquery.nicescroll.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js')
+  script(type="text/javascript" src="flash/flash-client.js") 
+  script(type="text/javascript" src= "dist/js/add-friends.js")
+  script(type="text/javascript" src= "dist/js/messenger.js")
   script(src='dist/js/soho.min.js')
   script(src='dist/js/examples.js')
   #ascrail2000.nicescroll-rails.nicescroll-rails-vr(style='width: 4px; z-index: auto; cursor: default; position: absolute; top: 530.797px; left: 1354px; height: 72px; display: none; opacity: 0;')

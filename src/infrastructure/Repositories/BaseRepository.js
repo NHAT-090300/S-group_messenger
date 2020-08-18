@@ -34,6 +34,7 @@ class BaseRepository {
   create(attributes, trx, returning = ['*']) {
     return this.cloneQuery().insert(attributes).returning(returning);
   }
+
   update(clauses, attributes, returning = ['*']) {
     return this.cloneQuery().where(clauses).update(attributes).returning(returning);
   }

@@ -8,8 +8,10 @@ head
   link(rel='icon' href='dist/images/favicon.png' type='image/png')
   link(rel='stylesheet' href='dist/css/soho.min.css')
   link(rel='stylesheet' href='dist/css/style.css')
-
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')
+  script(src='dist/js/load-page.js') 
 body.form-membership
+  include ../components/modals/load-page.pug
   .form-wrapper
     .logo
       svg#Capa_1(version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='50.004px' height='50.003px' viewbox='0 0 33.004 33.003' style='enable-background:new 0 0 33.004 33.003;' xml:space='preserve')
@@ -41,7 +43,7 @@ body.form-membership
     block content
   script(src='vendors/jquery/jquery.cookie.js')
   script(src='https://cdn.jsdelivr.net/npm/sweetalert2@9')
-  script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')
+
   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
@@ -49,7 +51,7 @@ body.form-membership
   script(src='https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js')
   script(src='https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js')
-  script(type="text/javascript" src="flash/flash-client.js") 
+  script(type="text/javascript" src="flash/flash-client.js")
   script(src='dist/js/soho.min.js')
 
   script.

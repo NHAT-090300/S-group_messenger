@@ -1,7 +1,6 @@
 import Repository from '../Repositories/AuthRepository';
 import bcrypt from 'bcrypt';
 import knex from '../../../database/connection'
-import firebase from '../../../database/firebase.js';
 
 class AuthService {
   static service;
@@ -20,64 +19,30 @@ class AuthService {
 
   async RegisterEmail(email, password, firstName, lastName) {
     try {
-      const userExists = await knex('users')
-      .where({email: email})
-      .first();
+      const userExists = await this.repository.userExists(email);
+      console.log(userExists);
       if (userExists) {
-        return res.status(500).json({
-          error: 'User already exists',
-        });
+        throw new Error('User already exists')
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await this.repository.registerByEmail(email, hashedPassword, firstName, lastName);
-        console.log(user);
-        return res.json({
-          message: 'created',
-        });
+        return await this.repository.registerByEmail(email, hashedPassword, firstName, lastName);
       }
     } catch (error) {
       console.log(error);
-      return res.json({
-        message: 'Failed',
-      });
+      throw new Error(error);
     };
   }
 
-  // async RegisterPhone(phoneNumber, firstName, lastName, password) {
-  //   try {
-  //     const findUser = await knex('users')
-  //     .where({phoneNumber: phoneNumber})
-  //     .first();
-  //     console.log(findUser);
-  //     if (findUser == undefined) {
-  //       const hashedPassword = await bcrypt.hash(password, 10);
-  //       await this.repository.createUserByPhone(phoneNumber, firstName, lastName, hashedPassword);
-  //       return res.json({
-  //         message: 'created',
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.json({
-  //       message: 'failed',
-  //     });
-  //   }
-  // }
-
-  async isUserExists(email) {
-    return this.repository.userExists(email);
+  async registerByPhone(phoneNumber, firstName, lastName, password) {
+    const findUser = await this.repository.userExistsPhone(phoneNumber);
+    console.log(findUser);
+    if (findUser == undefined) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      return await this.repository.createUserByPhone(phoneNumber, firstName, lastName, hashedPassword);
+    } else {
+      throw new Error('user already exists');
+    }
   }
-
-  // async registerUserByEmail(email, password, firstName, lastName) {
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-  //   return this.repository.registerByEmail(email, hashedPassword, firstName, lastName);
-  // }
-
-  async registerUserByPhone(phoneNumber, firstName, lastName, password) { 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return this.repository.createUserByPhone(phoneNumber, firstName, lastName, hashedPassword);
-  }
-
 }
 
 export default AuthService;

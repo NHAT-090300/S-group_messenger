@@ -7,28 +7,24 @@ class AuthRepository extends BaseRepository {
     if (!this.repository) {
       this.repository = new this();
     }
-
     return this.repository;
   }
 
   getTableName() {
     return 'users';
   }
+  
 
   userExistsPhone(phoneNumber) {
-    return knex('users')
-    .where({phoneNumber: phoneNumber})
-    .first();
+    return this.cloneQuery().where({phoneNumber}).first();
   }
 
   userExists(email) {
-    return knex('users')
-    .where({email})
-    .first(); 
+    return this.cloneQuery().where({email}).first();
   }
 
   registerByEmail(email, password, firstName, lastName) {
-    return knex('users')
+    return this.cloneQuery()
     .insert({
       firstName,
       lastName,
@@ -39,7 +35,7 @@ class AuthRepository extends BaseRepository {
   }
 
   createUserByPhone(phoneNumber,firstName, lastName, password) {
-    return knex('users')
+    return this.cloneQuery()
     .insert({
       firstName, 
       lastName, 

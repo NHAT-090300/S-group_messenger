@@ -50,9 +50,7 @@ class AuthController extends BaseController {
       return this.service.RegisterEmail(email, password, firstName, lastName);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({
-        message: 'Failed',
-      });
+      throw new Error(error);
     };
   };
 
@@ -66,15 +64,20 @@ class AuthController extends BaseController {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
           await firebase.auth().signInWithEmailAndPassword(email, password);
-          return res.redirect('/');
+          console.log(firebase.auth().currentUser.emailVerified);
+          if (firebase.auth().currentUser.emailVerified) {
+            const token = jwt.sign({id: user.id}, 'secret');
+            return res.json(token);
+          } else {
+            throw new Error(`please!, Check your email,You haven't confirmed the email.`);
+          }
         }
-        res.flash('password failed', 'success');
-        return res.redirect('/login');
+        throw new Error(`Wrong password! please, enter your password again`);
       }
-      res.flash(`haven't user`, 'success');
-      return res.redirect('/login');
+      throw new Error('Account not found!  please, try login again');
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      return res.status(402).json(error.message);
     }
   };
 
@@ -82,20 +85,15 @@ class AuthController extends BaseController {
   async postRegisterNumber(req, res) {
     try {
       const {firstName, lastName, phoneNumber, password} = req.body;
-      const findUser = await knex('users')
-      .where({phoneNumber: phoneNumber})
-      .first();
-      console.log(findUser);
-      if (findUser == undefined) {
-        await this.service.registerUserByPhone(phoneNumber, firstName, lastName, password);
-        return res.json({
-          message: 'create user success',
-        });
-      } else {
-        throw new Error('user already exists');
-      }
+      const data = await this.service.registerByPhone(phoneNumber, firstName, lastName, password);
+      return res.json({
+        data,
+        message: 'create user success',
+      });
     } catch (err) {
-      throw new Error(err);
+      return res.json({
+        message: err.message,
+      });
     }
   };
 
@@ -121,10 +119,8 @@ class AuthController extends BaseController {
       } else {
         throw new Error('Account not found!  please, try login again');
       }
-    } catch (err) {
-      return res.json({
-        message: err.message,
-      });
+    } catch (error) {
+      res.status(402).json(error.message);
     }
   }
 

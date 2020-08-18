@@ -16,10 +16,10 @@ block content
   .chat
     .chat-header
       .chat-header-user
-        figure.avatar.avatar-lg
+        figure.avatar.avatar-lg#avatarReseiver
           img.rounded-circle(src='dist/images/man_avatar3.jpg')
         div
-          h5 Karl Hubane
+          h5.userNameMessage Karl Hubane
           small.text-muted
             i Online
       .chat-header-action
@@ -106,14 +106,14 @@ block content
           .message-content Lorem ipsum dolor sit amet.
           .message-action PM 14:25 
     .chat-footer
-      form(action='')
-        input.form-control(type='text' placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby='button-addon2')
+      form.sendMessages(action='')
+        input#messageUser.form-control(type='text' placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby='button-addon2')
         .form-buttons
           button.btn.btn-light.btn-floating(type='button')
             i.fa.fa-paperclip
           button.btn.btn-light.btn-floating(type='button')
             i.fa.fa-microphone
-          button.btn.btn-primary.btn-floating(type='submit')
+          button#sendMessage.btn.btn-primary.btn-floating(type='submit')
             i.fa.fa-send
   // ./ chat
   include partials/friend-profile

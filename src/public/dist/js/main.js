@@ -1,5 +1,4 @@
 $(document).ready(() => {
-
  // register by email
   $('#registerEmail').submit(async (event) => {
     let firstName = $('#firstName').val();
@@ -8,15 +7,13 @@ $(document).ready(() => {
     let password = $('#password').val();
     event.preventDefault();
     try {
+      const addAudio = new Audio('http://taira-komori.jpn.org/sound_os/game01/poka03.mp3');
       //create user in firebase
       await firebase.auth().createUserWithEmailAndPassword(email, password);
-
       var user = await firebase.auth().currentUser;
-      
       user.sendEmailVerification();
-
       $.notify("check email verification ", "success");
-
+      addAudio.play();
       //jquery ajax
       $.ajax({
         url: "/register-email",
@@ -33,37 +30,48 @@ $(document).ready(() => {
         error: function (xhr, status, err)   {
           console.log(err);
         }
-
       });
-   
     }catch (err) {
-   
       $.notify(err, "error");
-   
     }
-  
   });
+
+  // login by email
+
+  $('#loginEmail').submit(function (event) {
+    event.preventDefault();
+    const email = $('#sign-email').val();
+    const password = $('#sign-Pwd').val();
+    $.ajax({
+      url: '/login',
+      type: 'POST',
+      data: {
+        email,
+        password,
+      }
+    }).then((data)=> {
+      Cookies.set('token', data);
+      return window.location.replace('/');
+    }).catch((err)=> {
+      $.notify(err.responseJSON, "error");
+    })
+  })
 
 
 // login by account google
   $('#login-google').on('click', async (event) => {
-    
     event.preventDefault();
     //login with google account
     var provider = new firebase.auth.GoogleAuthProvider();
-    
-    provider.addScope( 'profile' );
-    provider.addScope( 'email' );
-    
+    provider.addScope('profile');
+    provider.addScope('email');
     firebase.auth().signInWithPopup(provider).then( function ( result )  {
-      
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {    
         console.log(idToken)
         Cookies.set('idToken', idToken);
         return window.location.replace('/');
       }).catch(function(error) {
         $.notify(error.message, "error");
-
       });
     })
     .catch((error) => {
@@ -72,33 +80,30 @@ $(document).ready(() => {
     });
   });
 
-// login by account facebook
-$('#login-facebook').on('click', async (event) => {
+  // login by account facebook
+  $('#login-facebook').on('click', async (event) => {
+      
+    event.preventDefault();
+    //login with facebook account
+    let provider = new firebase.auth.FacebookAuthProvider();
     
-  event.preventDefault();
-  //login with facebook account
-  let provider = new firebase.auth.FacebookAuthProvider();
-  
-  provider.addScope('user_birthday, email');
-  firebase.auth().useDeviceLanguage();
+    provider.addScope('user_birthday, email');
+    firebase.auth().useDeviceLanguage();
 
-  firebase.auth().signInWithPopup(provider).then(function(result) {
-    firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-      console.log(idToken)
-      Cookies.set('idToken', idToken);
-      return window.location.replace('/');
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        console.log(idToken)
+        Cookies.set('idToken', idToken);
+        return window.location.replace('/');
+      }).catch(function(error) {
+        $.notify(error.message, "error");
+
+      });
     }).catch(function(error) {
       $.notify(error.message, "error");
 
     });
-  }).catch(function(error) {
-    $.notify(error.message, "error");
-
   });
-});
-
-
-
 });
 
 // register phone number
@@ -164,35 +169,23 @@ $(document).ready(function () {
     let signPhone = $('#loginPhone').val();
     let signPassword = $('#loginPassword').val();
 
-    try {
-      console.log('1')
-      $.ajax({
-        url: '/login-phoneNumber',
-        type: 'POST',
-        data: {
-          loginPhone: signPhone,
-          loginPassword: signPassword
-        }
-      })
-      .then((data)=> {
-        console.log(data);
-        Cookies.set('token', data.token);
-        if (data.message) {
-          $.notify(data.message, "error");
-        }
-        setTimeout(()=> {
-          return window.location.replace('/');
-        }, 3000);
-       })
-      .catch((err)=> {
-        $.notify(err, "error");
-      })
-      
-    } catch (err) {
-      console.log(err);
-      $.notify(err, "error");
-
-    }
+    $.ajax({
+      url: '/login-phoneNumber',
+      type: 'POST',
+      data: {
+        loginPhone: signPhone,
+        loginPassword: signPassword
+      }
+    })
+    .then((data)=> {
+      console.log(data);
+      Cookies.set('token', data.token);
+      return window.location.replace('/');
+     })
+    .catch((err)=> {
+      console.log(err)
+      $.notify(err.responseJSON, "error");
+    })
   });
 });
 
