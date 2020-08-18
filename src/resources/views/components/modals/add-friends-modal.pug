@@ -1,0 +1,25 @@
+#addFriends.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered.modal-dialog-zoom(role='document')
+      .modal-content
+        .modal-header
+          h5.modal-title
+            i.ti-user
+            |  Add Friends
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            i.ti-close
+        .modal-body
+          .alert.alert-info(style="display: flex;") Send invitations to friends.
+            a#toggle-addFriends.btn-sm.btn.btn-outline-primary(style='margin-left: auto; position: relative; color: 0c5460;') add friend by !
+
+          form#addFriends(action='')
+            .form-group#display-1.display-none
+              label.col-form-label(for='email' ) Email addresses
+              input#email.form-control(type='text' name='email' placeholder='email')
+            .form-group#display-2
+              label.col-form-label(for='phoneNumber' ) Phone number
+              input#phoneNumber.form-control(type='text' name='phoneNumber' placeholder='phone number')
+            .form-group
+              label.col-form-label(for='message') Invitation message
+              textarea#message.form-control(name='message')
+            .modal-footer
+              button.btn.btn-primary(type='submit') Submit
