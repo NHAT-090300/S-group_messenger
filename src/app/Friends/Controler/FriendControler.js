@@ -23,7 +23,7 @@ class FriendController {
             };
         } catch (err) {
             return res.status(402).json(err.message);
-        }
+        };
     };
     // api list friends, Your invitation has not been accepted
     async listFriendsNotAccepted(req, res) {
@@ -33,13 +33,13 @@ class FriendController {
             data: listInfoFriends,
             id: userID,
         });
-    }
+    };
     // api list friends, their invitation has not been accepted
     async listFriendsYourNotAccepted(req, res) {
         const userID = await service.currentUserID(req.cookies.token);
         const data = await repository.findByFriendIdAndStatus(userID, 1);
         return res.json(data);
-    }
+    };
     // api post friends have accepted
     async acceptFriends(req, res) {
         try {
@@ -56,8 +56,8 @@ class FriendController {
             });
         } catch (err) {
             console.log(err);
-        }
-    }
+        };
+    };
     // api not Accept Friends
     async notAcceptFriends(req, res) {
         try {
@@ -79,12 +79,11 @@ class FriendController {
         } catch (err) {
             console.log(err);
         }
-    }
+    };
     // api infomation's not accept friends
     async profileNotAcceptFriends(req, res) {
         try {
             const id = req.params.id;
-            const userID = await service.currentUserID(req.cookies.token);
             const profile = await repository.infoFriend(id);
             return res.json({
                 data: profile,
@@ -92,7 +91,7 @@ class FriendController {
         } catch (err) {
             console.log(err);
         }
-    }
+    };
     // api list All friends
     async listAllFriends(req, res) {
         try {
@@ -105,7 +104,12 @@ class FriendController {
             return res.json(profile);
         } catch (err) {
             console.log(err);
-        }
+        };
+    };
+
+    async userCurrent(req, res) {
+        const userID = await service.currentUserID(req.cookies.token);
+        return res.json(userID);
     }
 }
 

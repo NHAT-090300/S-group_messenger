@@ -7,6 +7,8 @@
 import debugLib from 'debug';
 import http from 'http';
 import app from '../app';
+import socketAPI from '../app/socket.io/socket';
+
 
 const debug = debugLib('messenger:server');
 /**
@@ -21,6 +23,7 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+socketAPI.io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -40,15 +43,15 @@ function normalizePort(val) {
   if (isNaN(port)) {
     // named pipe
     return val;
-  }
+  };
 
   if (port >= 0) {
     // port number
     return port;
-  }
+  };
 
   return false;
-}
+};
 
 /**
  * Event listener for HTTP server "error" event.

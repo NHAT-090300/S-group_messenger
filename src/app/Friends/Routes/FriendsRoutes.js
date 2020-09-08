@@ -20,4 +20,6 @@ router.route('/v1/info-friend/:id')
     .get(authMiddleware.hasLogined, controller.profileNotAcceptFriends);
 router.route('/v1/list-all-friends')
     .get(authMiddleware.hasLogined, controller.listAllFriends);
+router.route('/v1/user-current-id')
+    .get(authMiddleware.hasLogined, controller.userCurrent);
 export default router;

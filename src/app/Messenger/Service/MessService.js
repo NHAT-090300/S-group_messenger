@@ -22,18 +22,9 @@ class MessService {
       // user current then login by phone number
       if (token) {
           const idUserCurrentByPhoneNumber = await jwt.verify(token, 'secret');
-          console.log(idUserCurrentByPhoneNumber.id);
           if (idUserCurrentByPhoneNumber) {
-              userID = idUserCurrentByPhoneNumber.id;
-              console.log(userID);
+            userID = idUserCurrentByPhoneNumber.id;
           }
-      }
-      // user current then login by email
-      if (firebase.auth().currentUser) {
-          const userCurrent = await firebase.auth().currentUser;
-          const userCurrentByEmail = await this.repository.userIDCurrentByEmail(userCurrent.email); 
-          userID = userCurrentByEmail[0].id;
-          console.log(userID);
       }
       return userID;
     } catch(err) {
