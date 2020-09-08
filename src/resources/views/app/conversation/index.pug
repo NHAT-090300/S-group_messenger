@@ -42,10 +42,10 @@ block content
     .chat-body(tabindex='2' style='overflow: hidden; outline: none;')
       // .no-message
       //
-        <div class="no-message-container">
-        <i class="fa fa-comments-o"></i>
-        <p>Select a chat to read messages</p>
-        </div>
+        //- <div class="no-message-container">
+        //- <i class="fa fa-comments-o"></i>
+        //- <p>Select a chat to read messages</p>
+        //- </div>
       .messages
         .message-item.outgoing-message
           .message-content
@@ -58,53 +58,53 @@ block content
             | I&apos;m sorry :( I&apos;ll send you as soon as possible.
           .message-action
             | Pm 14:20
-        .message-item.outgoing-message
-          .message-content
-            | I&apos;m waiting. Thank you :)
-          .message-action
-            | Pm 14:25 
-            i.ti-double-check
-        .message-item
-          .message-content
-            | I&apos;m sending files now.
-          .message-action
-            | Pm 14:20
-        .message-item
-          .message-content.message-file
-            .file-icon
-              i.ti-file
-            div
-              div
-                | important_documents.pdf 
-                i.text-muted.small (50KB)
-              ul.list-inline
-                li.list-inline-item
-                  a(href='#') Download
-                li.list-inline-item
-                  a(href='#') View
-          .message-action
-            | Pm 14:25
-        .message-item.outgoing-message
-          .message-content
-            | Thank you so much. After I review these files, I will give you my opinion. If there&apos;s a
-            | problem, you can send it back. Good luck with!
-          .message-action
-            | Pm 14:50 
-            i.ti-info-alt.text-danger(title='Message could not be sent')
-        .message-item
-          .message-content
-            | I can&apos;t wait
-          .message-action
-            | Pm 15:00
-        .message-item.outgoing-message
-          .message-content
-            | I know how important this file is to you. You can trust me ;)
-          .message-action
-            | Pm 14:50 
-            i.ti-double-check
-        .message-item
-          .message-content Lorem ipsum dolor sit amet.
-          .message-action PM 14:25 
+        //- .message-item.outgoing-message
+        //-   .message-content
+        //-     | I&apos;m waiting. Thank you :)
+        //-   .message-action
+        //-     | Pm 14:25 
+        //-     i.ti-double-check
+        //- .message-item
+        //-   .message-content
+        //-     | I&apos;m sending files now.
+        //-   .message-action
+        //-     | Pm 14:20
+        //- .message-item
+        //-   .message-content.message-file
+        //-     .file-icon
+        //-       i.ti-file
+        //-     div
+        //-       div
+        //-         | important_documents.pdf 
+        //-         i.text-muted.small (50KB)
+        //-       ul.list-inline
+        //-         li.list-inline-item
+        //-           a(href='#') Download
+        //-         li.list-inline-item
+        //-           a(href='#') View
+        //-   .message-action
+        //-     | Pm 14:25
+        //- .message-item.outgoing-message
+        //-   .message-content
+        //-     | Thank you so much. After I review these files, I will give you my opinion. If there&apos;s a
+        //-     | problem, you can send it back. Good luck with!
+        //-   .message-action
+        //-     | Pm 14:50 
+        //-     i.ti-info-alt.text-danger(title='Message could not be sent')
+        //- .message-item
+        //-   .message-content
+        //-     | I can&apos;t wait
+        //-   .message-action
+        //-     | Pm 15:00
+        //- .message-item.outgoing-message
+        //-   .message-content
+        //-     | I know how important this file is to you. You can trust me ;)
+        //-   .message-action
+        //-     | Pm 14:50 
+        //-     i.ti-double-check
+        //- .message-item
+        //-   .message-content Lorem ipsum dolor sit amet.
+        //-   .message-action PM 14:25 
     .chat-footer
       form.sendMessages(action='')
         input#messageUser.form-control(type='text' placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby='button-addon2')

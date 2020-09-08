@@ -32,7 +32,7 @@ $(function () {
 
     setTimeout(function () {
         // $('#disconnected').modal('show');
-        $('#call').modal('show');
+        // $('#call').modal('show');
     }, 2000);
 
     $(document).on('submit', '.layout .content .chat .chat-footer form', function (e) {
@@ -56,6 +56,5 @@ $(function () {
             $(this).closest('.sidebar-group').removeClass('mobile-open');
         }
     });
+
 });
-
-
