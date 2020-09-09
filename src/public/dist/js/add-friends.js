@@ -107,7 +107,7 @@ $(document).ready(function(){
         .catch((error) => {
             console.log(error);
         })
-    }
+    };
 
     // list all friends have accepted
     function load(){
@@ -130,7 +130,6 @@ $(document).ready(function(){
 
                 ChatosExamle.Friends.listFriends(id, element.avatar, element.firstName, element.lastName, element.message);
                 ChatosExamle.Friends.listFriendsChats(id, element.avatar, element.firstName, element.lastName, element.message);
-
                 $('.cancelFriends').on('click',async function() {
                     const id = $(this).parent().attr('id');
                     $('.li__'+id).hide();
