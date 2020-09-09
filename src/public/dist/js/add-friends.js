@@ -32,7 +32,7 @@ $(document).ready(function(){
         },
         Friends: {
             listFriends: function (id, avatar, firstName, lastName, message) {
-                let li = $(`<li class="list-group-item" id="li__${id}"><div><figure class="avatar"><img class="rounded-circle" src="${avatar}"></figure></div><div class="users-list-body"><h5>${firstName} ${lastName}</h5><p>${message}</p><div class="users-list-action action-toggle"><div class="dropdown"><a data-toggle="dropdown" href="#"><i class="ti-more"></i></a><div class="dropdown-menu dropdown-menu-right"  id="${id}"><a class="dropdown-item openMessage"> Open </a><a class="dropdown-item active info" data-navigation-target='contact-information'> Profile </a><a class="dropdown-item cancelFriends"> Delete </a></div></div></div></div></li>`);
+                let li = $(`<li class="list-group-item li__${id}" id="li__${id}"><div><figure class="avatar"><img class="rounded-circle" src="${avatar}"></figure></div><div class="users-list-body"><h5>${firstName} ${lastName}</h5><p>${message}</p><div class="users-list-action action-toggle"><div class="dropdown"><a data-toggle="dropdown" href="#"><i class="ti-more"></i></a><div class="dropdown-menu dropdown-menu-right"  id="${id}"><a class="dropdown-item openMessage"> Open </a><a class="dropdown-item active info" data-navigation-target='contact-information'> Profile </a><a class="dropdown-item cancelFriends"> Delete </a></div></div></div></div></li>`);
                 $('#listAllFriends').append(li);
             },
             listFriendsChats: function(id, avatar, firstName, lastName, message) {
@@ -96,7 +96,7 @@ $(document).ready(function(){
                 ChatosExamle.Requests.ListYourRequests(element.firendId, element.avatar, element.firstName, element.lastName, element.message);
 
                 $('.notAccept').on('click', function (){
-                    NotAcceptFriends($(this).parent().attr('id'));
+                    NotAcceptFriends($(this).parent().attr('id'),1);
                     $('#li' + $(this).parent().attr('id')).hide();
                 });
                 $('.profile').on('click', function (){
@@ -108,46 +108,7 @@ $(document).ready(function(){
             console.log(error);
         })
     }
-    // list friends their invitation
-    function listThierRequests() {
-        $.ajax({
-            url: '/v1/list-friends',
-            type: 'GET'
-        })
-        .then((data)=> {
-            $('#acceptedFriends').html('');
-            for(let i = 0; i < data.length; i++) {
-                let element = data[i];
 
-                ChatosExamle.Requests.listThierRequests(element.userId, element.avatar, element.firstName, element.lastName, element.message);
-
-                $('.accept').on('click', function(){
-                    const id = $(this).parent().attr('id').split('_')[1];
-                    $('#li_'+ id).hide();
-                    update(id);
-                    load();
-                    $.ajax({
-                        url: '/v1/info-friend/' + id,
-                        method: 'GET'
-                    }).then((data) => {
-                        const element = data.data[0];
-                        ChatosExamle.Friends.listFriends(id, element.avatar, element.firstName, element.lastName, element.message);
-                    })
-                });
-                $('.delete').on('click', function(){
-                    const id = $(this).parent().attr('id').split('_')[1];
-                    NotAcceptFriends(id, 1);
-                    $('#li_' + id).hide();
-                });
-                $('.profileFriends').on('click', function(){
-                    profileFriend($(this).parent().attr('id').split('_')[1]);
-                });
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-    }
     // list all friends have accepted
     function load(){
         $.ajax({
@@ -169,10 +130,11 @@ $(document).ready(function(){
 
                 ChatosExamle.Friends.listFriends(id, element.avatar, element.firstName, element.lastName, element.message);
                 ChatosExamle.Friends.listFriendsChats(id, element.avatar, element.firstName, element.lastName, element.message);
-                $('.cancelFriends').on('click', function() {
+
+                $('.cancelFriends').on('click',async function() {
                     const id = $(this).parent().attr('id');
-                    NotAcceptFriends(id , 2);
-                    $('#li__' + id).hide();
+                    $('.li__'+id).hide();
+                    await NotAcceptFriends(id , 2);
                 });
                 $('.info').on('click', function() {
                     const id = $(this).parent().attr('id');
@@ -188,7 +150,45 @@ $(document).ready(function(){
             }
         })
     }
+    // list friends their invitation
+    function listThierRequests() {
+        $.ajax({
+            url: '/v1/list-friends',
+            type: 'GET'
+        })
+        .then((data)=> {
+            $('#acceptedFriends').html('');
+            for(let i = 0; i < data.length; i++) {
+                let element = data[i];
 
+                ChatosExamle.Requests.listThierRequests(element.userId, element.avatar, element.firstName, element.lastName, element.message);
+
+                $('.accept').on('click',async function(){
+                    const id = $(this).parent().attr('id').split('_')[1];
+                    $('#li_'+ id).hide();
+                    await update(id);
+                    $.ajax({
+                        url: '/v1/info-friend/' + id,
+                        method: 'GET'
+                    }).then((data) => {
+                        const element = data.data[0];
+                        ChatosExamle.Friends.listFriends(id, element.avatar, element.firstName, element.lastName, element.message);
+                    });
+                });
+                $('.delete').on('click',async function(){
+                    const id = $(this).parent().attr('id').split('_')[1];
+                    $('#li_' + id).hide();
+                    await NotAcceptFriends(id, 1);
+                });
+                $('.profileFriends').on('click', function(){
+                    profileFriend($(this).parent().attr('id').split('_')[1]);
+                });
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
     // accept friends
     function update(id) {
         $.ajax({
@@ -201,18 +201,18 @@ $(document).ready(function(){
         })
     }
     // delete invation
-    function NotAcceptFriends(id, status) {
-        $.ajax({
-            url: '/v1/not-accept-friend/' + id,
-            method: 'DELETE',
-            data: {
-                status
-            }
-        }).then((data)=> {
-            console.log(data);
-        }).catch((error)=> {
-            console.log(error);
-        })
+    async function NotAcceptFriends(id, status) {
+        try {
+            await $.ajax({
+                url: '/v1/not-accept-friend/' + id,
+                method: 'DELETE',
+                data: {
+                    status
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
     // profile friends findById
     function profileFriend(id) {
