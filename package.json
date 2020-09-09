@@ -26,7 +26,7 @@
     "flash-express": "git://github.com/deveshgoyal/flash-express.git",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.12.5",
+    "knex": "^0.19.5",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.3",
     "morgan": "^1.9.1",
