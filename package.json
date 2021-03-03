@@ -31,7 +31,7 @@
     "mongoose": "^5.10.3",
     "morgan": "^1.9.1",
     "pg": "^7.12.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "socket.io": "^2.3.0",
     "typescript-eslint": "0.0.1-alpha.0"
   },
